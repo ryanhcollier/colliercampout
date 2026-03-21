@@ -8,8 +8,9 @@
   --alert-color: #C52313;
   --border-color: #dddddd;
   
-  --sidebar-width: 33%;
-  --map-width: 66%;
+  --sidebar-width: 33.333%;
+  --map-width: 66.666%;
+  --map-height: 100vh;
   --sidebar-padding: 30px 40px;
 }
 
@@ -39,7 +40,31 @@ body {
   top: 0;
   left: 0;
   width: var(--map-width);
-  height: 100vh;
+  height: var(--map-height);
+}
+
+/* Sidebar Gallery Grid */
+.sidebar-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 30px;
+  width: 100%;
+}
+
+.sidebar-gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.sidebar-gallery img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .map-marker {
@@ -93,6 +118,9 @@ body {
   background-color: var(--bg-color);
   z-index: 5;
   box-shadow: -5px 0 25px rgba(0,0,0,0.05); /* subtle layout shadow */
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  padding-top: 25vh; /* ALLOWS FIRST ITEM TO CENTER SNAP */
 }
 
 /* Hide scrollbar for cleaner look but keep functionality */
@@ -112,10 +140,12 @@ body {
   border-bottom: 1px solid var(--border-color);
   opacity: 0.3;
   transition: opacity 0.5s ease-in-out, transform 0.3s ease;
-  min-height: 50vh;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 .chapter.active {
@@ -139,7 +169,7 @@ body {
 
 .dates {
   font-size: 11px;
-  color: var(--text-light);
+  color: var(--accent-color);
   font-weight: 700;
   letter-spacing: 0.25em;
   margin-bottom: 24px;
@@ -202,6 +232,8 @@ body {
   margin-top: 24px;
 }
 
+
+/* Used in sidebar for thumbnail display if I needed to revert, kept for reference but now deprecated */
 .thumbnail-image {
   width: 100%;
   height: 30px;
@@ -281,6 +313,51 @@ body {
 
 @keyframes scaleIn {
   to { transform: scale(1); }
+}
+
+/* Journey Timeline Styles */
+.journey-timeline {
+  position: fixed;
+  left: 20px;
+  bottom: 40px;
+  width: calc(var(--map-width) - 40px);
+  height: 6px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 6px;
+  z-index: 100;
+  backdrop-filter: blur(4px);
+}
+
+.timeline-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-color);
+  border-radius: 6px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-marker {
+  position: absolute;
+  top: -11px;
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-50%);
 }
 
 /* Responsive adjustments */

@@ -97,6 +97,7 @@ export const chapters = {
     description: "Lots of sites with mixed tent and camper spaces. Upon settling in near the back of the campground we talked to the host who felt the need to share his recent bear story, which of course happened in the exact site we were setting up in. We moved... and stayed in site #22 which has a good lake view and flat tent pad. The campground has basic vault restrooms and potable water.",
     bearing: 0,
     center: [-106.581, 38.819],
+    waypoints: [[-107.597831, 38.86855], [-106.987488, 38.869758]],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -110,6 +111,7 @@ export const chapters = {
     description: "After a long day driving due to a closed pass, we made our way up to Seedhouse on the suggestion of a guy that worked in an outdoor store in Steamboat Springs. It is a little off the beaten path but has some good sites. Drive all the way in to the back and look for sites #15 and #16, which back up to the Elk River and have tree cover. We stayed in site #4 next to the host trailer. We never saw the host.",
     bearing: 0,
     center: [-106.776, 40.767],
+    waypoints: [[-106.522085, 39.634363]],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -123,6 +125,7 @@ export const chapters = {
     description: "We drove out of Colorado and into Wyoming on dirt roads, all the while passing a massive hunting lodge. This was the first hotel stay of the trip. Grabbed some much needed showers and slept in normal beds.",
     bearing: 0,
     center: [-109.221, 41.579],
+    waypoints: [[-106.96531, 40.853657]],
     zoom: 8,
     speed: 0.6,
     icon: "lodging"
@@ -136,6 +139,7 @@ export const chapters = {
     description: "We made our way up through Jackson to Gros Ventre. It is a large campground with 300+ sites and a dedicated tent only loop. You check in at the front of the campground and they assign you your site by length of stay and type of camping you are doing. We were given site #349. It backed up to the woods and had the river about 60 yards behind us but was right next to the bathroom. Convienent but noisy.",
     bearing: 0,
     center: [-110.639, 43.613],
+    waypoints: [[-110.933503, 42.725381]],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -162,6 +166,13 @@ export const chapters = {
     description: "The south entrance to the park was closed due to a wildfire so we had to backtrack and make our way around into the West entrance of Yellowstone. As we were driving in it started dumping snow, which apparently most people do not get to experience since the park closes down so early for the winter. We were originally going to stay two nights in one site then move to another campground in the park for another two nights but everything was booked up due to the closing of a campground near the fire. So we stayed in two different sites at Madison over 3 days. We were in sites #254 and #260. It was pretty packed with people so we decided to leave a day early and drive out the North entrance at night. Not the smartest idea.",
     bearing: 0,
     center: [-110.865, 44.644],
+    waypoints: [
+      [-110.7176, 43.653], // Moose / Teton Park Road
+      [-110.871799, 43.500023], // Wilson
+      [-111.111346, 43.602595], // Victor
+      [-111.21567, 43.96952], // Lamont
+      [-111.334275, 44.496953] // Island Park
+    ],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -175,6 +186,11 @@ export const chapters = {
     description: "Another hotel stay, some Jimmy Johns, and clean laundry.",
     bearing: 0,
     center: [-111.041, 45.677],
+    waypoints: [
+      [-110.3835235, 44.8948785], // Devils Den
+      [-110.70037, 44.976635], // Mammoth
+      [-110.904305, 45.206] // Carbella
+    ],
     zoom: 8,
     speed: 0.6,
     icon: "lodging"
@@ -201,6 +217,7 @@ export const chapters = {
     description: "We stayed in site #50. Two Medicine has quiet campsites with access to amazing trails. We also drove over to Many Glacier campground. We would recommend it for more diverse hikes up to glacier lakes, but need to get there early. It can be hard to get a spot there.",
     bearing: 0,
     center: [-113.365, 48.487],
+    waypoints: [[-112.181615, 47.80994]],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -214,6 +231,13 @@ export const chapters = {
     description: "Down a great drive on highway 12, passing the \"Winding roads next 99 miles\" sign, you can stop in at Lochsa Lodge. We booked a cabin that included a bed and wood fire stove. They have great bathrooms and shower facilities but you have to walk over to them. We stayed in cabin #1. The lodge has a small general store, resturant, and bar. It sits next to Powell campground which has good sites next to the Lochsa River if you do not want to spring for a cabin.",
     bearing: 0,
     center: [-114.721, 46.512],
+    waypoints: [
+      [-113.43543, 48.856777], // Babb / Right side of Lower St Mary
+      [-113.677693, 48.796961], // Many Glacier Campground
+      [-113.42909, 48.743553], // St. Mary / Backtrack
+      [-113.718, 48.696], // Going-to-the-Sun Road
+      [-113.983636, 48.496968] // West Glacier
+    ],
     zoom: 8,
     speed: 0.6,
     icon: "campsite"
@@ -266,6 +290,7 @@ export const chapters = {
     description: "Walk in sites about 100-200 yards from parking lot. Lots of climbers around. Some good hikes and climbing. High plains desert area.",
     bearing: 0,
     center: [-121.137, 44.366],
+    waypoints: [[-123.036676, 44.940689]], // Salem, OR
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -276,7 +301,7 @@ export const chapters = {
     dates: "OCTOBER 6TH",
     sleepsite: "Cold Water Cove Campground",
     specs: "$20 / DAY",
-    description: "thick woods and a few sites sit on clear lake. Normal vault toilets. Som road/air traffic at night.",
+    description: "Thick woods and a few sites sit on super clear lake. Normal vault toilets. Some road/air traffic at night. We had to pack up in the rain but typical NW vibes.",
     bearing: 0,
     center: [-121.990, 44.361],
     zoom: 13,
@@ -292,6 +317,10 @@ export const chapters = {
     description: "The main campground just inside the south entrance to the park. Small campsites, close together. First come first serve witha limitied number available. (25%) you can reserve.",
     bearing: 0,
     center: [-122.144, 42.910],
+    waypoints: [
+      [-122.054474, 44.188538], // Belknap Springs / Clear Lake
+      [-121.801222, 44.260556]  // McKenzie Pass (Dee Wright Observatory)
+    ],
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -305,6 +334,11 @@ export const chapters = {
     description: "Secluded campground off the main road. Campsite sites opposite side of the road. Directly across road is a river access (Salmon River)",
     bearing: 0,
     center: [-123.451, 41.377],
+    waypoints: [
+      [-121.995901, 42.702928], // Fort Klamath
+      [-122.12353, 42.434772], // Rocky Point
+      [-122.714565, 42.197079] // Ashland, OR
+    ],
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -357,6 +391,7 @@ export const chapters = {
     description: "Very basic spot of land...basically like camping in a backyard. Has lots of RV spots. Trail hiking if interested. Has good bathrooms and showers. Woulr only recommend for showers. Can't camp in woods so it's not that great. Can hear any other campters.",
     bearing: 0,
     center: [-122.242, 38.275],
+    waypoints: [[-119.98382, 38.934497]], // South Lake Tahoe
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -370,6 +405,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-122.416, 37.777],
+    waypoints: [[-122.528389, 37.972158]], // San Rafael
     zoom: 12,
     speed: 0.6,
     icon: "lodging"
@@ -435,6 +471,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-119.122, 34.813],
+    waypoints: [[-118.477003, 37.818318]], // Benton, CA (Grand Army of the Republic Hwy)
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -448,6 +485,10 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-119.521, 34.392],
+    waypoints: [
+      [-119.002838, 34.818866], // Lockwood Valley Road
+      [-119.29158, 34.50803]    // Wheeler Springs
+    ],
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -526,6 +567,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-111.374, 36.861],
+    waypoints: [[-111.657074, 36.623993]], // Bitter Springs
     zoom: 12,
     speed: 0.6,
     icon: "embassy"
@@ -565,6 +607,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-109.477, 38.640],
+    waypoints: [[-111.642815, 38.402191]], // Loa, UT
     zoom: 12,
     speed: 0.6,
     icon: "campsite"
@@ -604,6 +647,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-108.473, 37.165],
+    waypoints: [[-110.320306, 37.039056]], // Oljato-Monument Valley
     zoom: 12,
     speed: 0.6,
     icon: "embassy"
@@ -617,6 +661,10 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-105.952, 35.674],
+    waypoints: [
+      [-107.741282, 36.265833], // Nageezi, NM
+      [-106.318544, 36.207965]  // Abiquiu, NM
+    ],
     zoom: 12,
     speed: 0.6,
     icon: "lodging"
@@ -630,6 +678,10 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-95.504, 33.647],
+    waypoints: [
+      [-105.361294, 35.266045], // Villanueva, NM
+      [-101.846803, 33.585531]  // Lubbock, TX
+    ],
     zoom: 12,
     speed: 0.6,
     icon: "lodging"
@@ -643,6 +695,7 @@ export const chapters = {
     description: "Stayed here.",
     bearing: 0,
     center: [-91.088, 30.469],
+    waypoints: [[-94.048557, 33.426071]], // Texarkana
     zoom: 12,
     speed: 0.6,
     icon: "lodging"
@@ -656,6 +709,10 @@ export const chapters = {
     description: "We returned home and finished up the trip. Thanks for looking.",
     bearing: 0,
     center: [-82.400, 34.851],
+    waypoints: [
+      [-84.799544, 33.375152], // Newnan, GA
+      [-83.37524, 33.957715]   // Athens, GA
+    ],
     zoom: 8,
     pitch: 0,
     speed: 0.6,

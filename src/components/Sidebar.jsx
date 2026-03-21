@@ -1,36 +1,33 @@
-import { useEffect, useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { chaptersArray } from '../data/journey';
+import Campfire from './Campfire';
 
 export default function Sidebar({ activeChapterId, setActiveChapterId, onImageClick }) {
+  const sidebarRef = useRef(null);
   const chapterRefs = useRef({});
 
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-40% 0px -40% 0px',
-      threshold: 0 // Trigger when intersecting the middle 20% of the screen
-    };
-
-    const observerCallback = (entries) => {
-      // Find the currently intersecting entry (if multiple, prefer the one intersecting)
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveChapterId(entry.target.id);
         }
       });
-    };
+    }, {
+      root: sidebarRef.current,
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: 0
+    });
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-    Object.values(chapterRefs.current).forEach((ref) => {
-      if (ref) observer.observe(ref);
+    Object.values(chapterRefs.current).forEach((el) => {
+      if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
   }, [setActiveChapterId]);
 
   return (
-    <div className="sidebar" id="features">
+    <div className="sidebar" id="features" ref={sidebarRef}>
       {chaptersArray.map((chapter) => {
         const isActive = activeChapterId === chapter.id;
         
@@ -40,12 +37,9 @@ export default function Sidebar({ activeChapterId, setActiveChapterId, onImageCl
             id={chapter.id}
             ref={(el) => (chapterRefs.current[chapter.id] = el)}
             className={`chapter ${isActive ? 'active' : ''}`}
-            onMouseEnter={() => setActiveChapterId(chapter.id)}
           >
             {chapter.id === 'trip' && (
-              <div className="wip">
-                <b>TCC IS A LIVE WORK IN PROGRESS. PLEASE EXCUSE ANY ERRORS.</b>
-              </div>
+              <Campfire />
             )}
             
             <div className="location">
@@ -73,21 +67,21 @@ export default function Sidebar({ activeChapterId, setActiveChapterId, onImageCl
                   </>
                 )}
               </div>
-              
-              {chapter.images && chapter.images.length > 0 && (
-                <div className="image-gallery">
-                  {chapter.images.map((img, idx) => (
-                    <img 
-                      key={idx}
-                      src={img.thumb} 
-                      alt={img.title || chapter.title} 
-                      className="thumbnail-image"
-                      onClick={() => onImageClick(img.src)}
-                    />
-                  ))}
-                </div>
-              )}
             </div>
+
+            {chapter.images && chapter.images.length > 0 && (
+              <div className="sidebar-gallery">
+                {chapter.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img.src}
+                    alt={img.title || chapter.title}
+                    onClick={() => onImageClick(chapter.images, idx)}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            )}
           </section>
         );
       })}

@@ -2,25 +2,33 @@ import { useState } from 'react';
 import AppMap from './components/Map';
 import Sidebar from './components/Sidebar';
 import ImageModal from './components/ImageModal';
+import JourneyTimeline from './components/JourneyTimeline';
+import { chaptersArray } from './data/journey';
 import './App.css';
 
 function App() {
   const [activeChapterId, setActiveChapterId] = useState('trip');
-  const [modalImageSrc, setModalImageSrc] = useState(null);
+  const [modalData, setModalData] = useState(null); // { images: [], index: 0 }
+
+  const activeChapter = chaptersArray.find(c => c.id === activeChapterId) || chaptersArray[0];
 
   return (
     <div className="app-container">
       <AppMap activeChapterId={activeChapterId} />
+      
       <Sidebar 
         activeChapterId={activeChapterId} 
         setActiveChapterId={setActiveChapterId} 
-        onImageClick={setModalImageSrc}
+        onImageClick={(images, index) => setModalData({ images, index })}
       />
       
-      {modalImageSrc && (
+      <JourneyTimeline activeChapterId={activeChapterId} />
+      
+      {modalData && (
         <ImageModal 
-          src={modalImageSrc} 
-          onClose={() => setModalImageSrc(null)} 
+          images={modalData.images}
+          initialIndex={modalData.index}
+          onClose={() => setModalData(null)} 
         />
       )}
     </div>

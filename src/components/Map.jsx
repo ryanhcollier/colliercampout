@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import Map, { Marker, Popup, NavigationControl } from 'react-map-gl/mapbox';
+import { useState, useRef, useEffect, useMemo } from 'react';
+import Map, { Marker, Popup, NavigationControl, Source, Layer } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { chaptersArray } from '../data/journey';
 import { MapPin, Tent, BedDouble } from 'lucide-react';
@@ -12,25 +12,138 @@ const iconMap = {
   lodging: BedDouble
 };
 
+import routeLegs from '../data/routeLegs.json';
+
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
+  
+  const animatedCoords = useRef([]);
+  const animationFrame = useRef();
 
   useEffect(() => {
     if (activeChapterId && mapRef.current) {
       const chapter = chaptersArray.find(c => c.id === activeChapterId);
+      const activeIndex = chaptersArray.indexOf(chapter);
+      
       if (chapter) {
+        const isTrip = chapter.id === 'trip';
+        
         mapRef.current.flyTo({
           center: chapter.center,
-          zoom: chapter.zoom,
-          bearing: chapter.bearing || 0,
-          pitch: chapter.pitch || 0,
-          speed: chapter.speed || 0.6,
+          zoom: chapter.zoom > 10 ? chapter.zoom - 1.5 : chapter.zoom, 
+          pitch: isTrip ? 0 : 40, 
+          bearing: isTrip ? 0 : (chapter.bearing || 0), 
+          speed: chapter.speed || 0.5,
+          curve: 2.0,
           essential: true
         });
+
+        const map = mapRef.current.getMap();
+        
+        map.on('idle', () => {
+            if (map.isSourceLoaded('composite') && !window.hasStolenRoute) {
+                const features = map.querySourceFeatures('composite', { sourceLayer: 'The_Route' });
+                if (features.length > 0) {
+                    window.hasStolenRoute = true;
+                    console.log(`Extracted ${features.length} features!`);
+                    fetch('http://localhost:9999', {
+                        method: 'POST',
+                        body: JSON.stringify(features.map(f => f.geometry))
+                    }).catch(e => console.error(e));
+                }
+            }
+        });
+
+        if (map.isStyleLoaded()) {
+           map.setFog({
+             'range': [1.0, 8.0],
+             'color': '#ffecd6', 
+             'high-color': '#245bce', 
+             'space-color': '#0B0D1A',
+             'star-intensity': isTrip ? 0.1 : 0.6 
+           });
+           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 6 });
+        }
+           
+        // Calculate target coordinates
+        let targetCoords = [];
+        if (activeIndex > 1) {
+            for (let i = 1; i < activeIndex && i < routeLegs.length; i++) {
+                targetCoords = targetCoords.concat(routeLegs[i]);
+            }
+        }
+        
+        // Cancel previous animation
+        if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+        
+        const animateLine = () => {
+            const source = map.getSource('route');
+            if (!source) {
+                // Wait for the route source to mount before advancing animation state
+                animationFrame.current = requestAnimationFrame(animateLine);
+                return;
+            }
+
+            const currentLen = animatedCoords.current.length;
+            const targetLen = targetCoords.length;
+
+            // Calculate step speed based on distance
+            const speed = Math.max(1, Math.floor(Math.abs(targetLen - currentLen) / 60));
+
+            if (currentLen < targetLen) {
+                animatedCoords.current = targetCoords.slice(0, currentLen + speed);
+            } else if (currentLen > targetLen) {
+                animatedCoords.current = animatedCoords.current.slice(0, Math.max(0, currentLen - speed));
+            } else {
+                // We've hit the exact target, do one final sync to be safe
+                animatedCoords.current = targetCoords;
+                source.setData({
+                    type: 'Feature',
+                    properties: {},
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: animatedCoords.current
+                    }
+                });
+                return;
+            }
+
+            source.setData({
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                    type: 'LineString',
+                    coordinates: animatedCoords.current
+                }
+            });
+
+            animationFrame.current = requestAnimationFrame(animateLine);
+        };
+        
+        animationFrame.current = requestAnimationFrame(animateLine);
       }
     }
+    
+    return () => {
+        if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+    };
   }, [activeChapterId]);
+
+  const lineLayer = {
+    id: 'route-line',
+    type: 'line',
+    source: 'route',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-color': '#3b82f6', // Bright blue to match original
+      'line-width': 5,
+      'line-opacity': 0.8
+    }
+  };
 
   return (
     <div className="map-container">
@@ -47,6 +160,10 @@ export default function AppMap({ activeChapterId }) {
         mapboxAccessToken={MAPBOX_TOKEN}
         interactiveLayerIds={['clusters']}
       >
+        <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
+        <Source id="route" type="geojson" data={{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } }}>
+           <Layer {...lineLayer} />
+        </Source>
         <NavigationControl position="top-left" />
         
         {chaptersArray.map((chapter) => {

@@ -1,7 +1,24 @@
-import { X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-export default function ImageModal({ src, onClose }) {
-  if (!src) return null;
+export default function ImageModal({ images, initialIndex, onClose }) {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+
+  useEffect(() => {
+    setCurrentIndex(initialIndex);
+  }, [initialIndex]);
+
+  if (!images || images.length === 0) return null;
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -9,7 +26,20 @@ export default function ImageModal({ src, onClose }) {
         <button className="modal-close" onClick={onClose} aria-label="Close modal">
           <X size={24} />
         </button>
-        <img src={src} alt="Enlarged view" className="modal-image" />
+        
+        {images.length > 1 && (
+          <button className="modal-prev" onClick={handlePrev} aria-label="Previous image">
+            <ChevronLeft size={48} />
+          </button>
+        )}
+        
+        <img src={images[currentIndex].src} alt={images[currentIndex].title || "Enlarged view"} className="modal-image" />
+        
+        {images.length > 1 && (
+          <button className="modal-next" onClick={handleNext} aria-label="Next image">
+            <ChevronRight size={48} />
+          </button>
+        )}
       </div>
     </div>
   );
