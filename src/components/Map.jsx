@@ -29,18 +29,30 @@ export default function AppMap({ activeChapterId }) {
       if (chapter) {
         const isTrip = chapter.id === 'trip';
         
+        const map = mapRef.current.getMap();
+        
+        // Strip the terrain exaggeration completely to prevent altitude-tracking jitter over mountains during flight
+        if (map.isStyleLoaded()) {
+           map.setTerrain(null);
+        }
+        
         mapRef.current.flyTo({
           center: chapter.center,
           zoom: chapter.zoom > 10 ? chapter.zoom - 1.5 : chapter.zoom, 
-          pitch: isTrip ? 0 : 40, 
+          pitch: isTrip ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
           bearing: isTrip ? 0 : (chapter.bearing || 0), 
-          speed: chapter.speed || 0.5,
-          curve: 2.0,
+          speed: chapter.speed || 0.45,
+          curve: 1.5, // Flattened the curve to keep flights closer to the ground and smoother
           essential: true,
           padding: { right: window.innerWidth / 3 } // Push the visual center of the map left to accommodate the Sidebar overlay
         });
 
-        const map = mapRef.current.getMap();
+        map.once('moveend', () => {
+            if (map.isStyleLoaded()) {
+                // Instantly pop the 3D terrain mesh back in after flight stops
+                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 6 });
+            }
+        });
         
         map.on('idle', () => {
             if (map.isSourceLoaded('composite') && !window.hasStolenRoute) {
@@ -64,7 +76,7 @@ export default function AppMap({ activeChapterId }) {
              'space-color': '#0B0D1A',
              'star-intensity': isTrip ? 0.1 : 0.6 
            });
-           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 6 });
+           // Terrain is now explicitly handled by the moveend callback above
         }
            
         // Calculate target coordinates
