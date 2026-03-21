@@ -1,0 +1,27 @@
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 1.2s ease-out, visibility 1.2s ease-out;
+}
+
+.intro-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.campfire-intro-wrapper {
+  transform: scale(2.0); /* Makes the campfire much larger and explicit for the intro payload */
+  transform-origin: center center;
+}
+
+

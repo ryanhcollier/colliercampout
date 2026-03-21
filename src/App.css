@@ -39,7 +39,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: var(--map-width);
+  width: 100vw;
   height: var(--map-height);
 }
 
@@ -121,6 +121,11 @@ body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   padding-top: 25vh; /* ALLOWS FIRST ITEM TO CENTER SNAP */
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sidebar.hidden-right {
+  transform: translateX(100vw);
 }
 
 /* Hide scrollbar for cleaner look but keep functionality */

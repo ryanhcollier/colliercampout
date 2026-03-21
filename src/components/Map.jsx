@@ -36,7 +36,8 @@ export default function AppMap({ activeChapterId }) {
           bearing: isTrip ? 0 : (chapter.bearing || 0), 
           speed: chapter.speed || 0.5,
           curve: 2.0,
-          essential: true
+          essential: true,
+          padding: { right: window.innerWidth / 3 } // Push the visual center of the map left to accommodate the Sidebar overlay
         });
 
         const map = mapRef.current.getMap();
@@ -149,6 +150,7 @@ export default function AppMap({ activeChapterId }) {
     <div className="map-container">
       <Map
         ref={mapRef}
+        padding={{ right: window.innerWidth / 3 }}
         initialViewState={{
           longitude: -100.941,
           latitude: 39.176,

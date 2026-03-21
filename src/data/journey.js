@@ -2,7 +2,7 @@ export const chapters = {
   trip: {
     id: "trip",
     title: "The Collier Campout",
-    dates: "AUGUST 30TH - DECEMBER 1ST",
+    dates: "AUGUST 30TH - DECEMBER 1ST, 2016",
     description: "The Collier Campout was a three month long camping road trip taken by Ryan and Nikki Collier. After leaving NYC, and moving our stuff down to family in Greenville, SC we decided it would be the ideal starting location. We left on August 30th and returned back to Greenville on December 1st 2016. Over those three months, we visited 15 state parks and drove over 13,000 miles through 19 states. This site was built as a means of sharing the trip with others and hopefully inspiring others to take their own trip.",
     center: [-97.812, 38.151],
     zoom: 3.2,

@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import { chaptersArray } from '../data/journey';
 import Campfire from './Campfire';
 
-export default function Sidebar({ activeChapterId, setActiveChapterId, onImageClick }) {
+export default function Sidebar({ activeChapterId, setActiveChapterId, onImageClick, isReady }) {
   const sidebarRef = useRef(null);
   const chapterRefs = useRef({});
 
@@ -27,7 +27,7 @@ export default function Sidebar({ activeChapterId, setActiveChapterId, onImageCl
   }, [setActiveChapterId]);
 
   return (
-    <div className="sidebar" id="features" ref={sidebarRef}>
+    <div className={`sidebar ${!isReady ? 'hidden-right' : ''}`} id="features" ref={sidebarRef}>
       {chaptersArray.map((chapter) => {
         const isActive = activeChapterId === chapter.id;
         
