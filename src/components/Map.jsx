@@ -36,15 +36,22 @@ export default function AppMap({ activeChapterId }) {
            map.setTerrain(null);
         }
         
+        const isMobile = window.innerWidth <= 768;
+
+        let targetZoom = chapter.zoom > 10 ? chapter.zoom - 1.5 : chapter.zoom;
+        if (isMobile && isTrip) {
+            targetZoom = Math.max(0, targetZoom - 1.5); // Pull back camera on mobile to fit the entire US
+        }
+
         mapRef.current.flyTo({
           center: chapter.center,
-          zoom: chapter.zoom > 10 ? chapter.zoom - 1.5 : chapter.zoom, 
+          zoom: targetZoom, 
           pitch: isTrip ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
           bearing: isTrip ? 0 : (chapter.bearing || 0), 
           speed: chapter.speed || 0.45,
           curve: 1.5, // Flattened the curve to keep flights closer to the ground and smoother
           essential: true,
-          padding: { right: window.innerWidth / 3 } // Push the visual center of the map left to accommodate the Sidebar overlay
+          padding: { right: isMobile ? 0 : window.innerWidth / 3 } // Wipe padding on mobile since the map mounts vertically
         });
 
         map.once('moveend', () => {
@@ -162,11 +169,11 @@ export default function AppMap({ activeChapterId }) {
     <div className="map-container">
       <Map
         ref={mapRef}
-        padding={{ right: window.innerWidth / 3 }}
+        padding={{ right: window.innerWidth <= 768 ? 0 : window.innerWidth / 3 }}
         initialViewState={{
           longitude: -100.941,
           latitude: 39.176,
-          zoom: 3.5,
+          zoom: window.innerWidth <= 768 ? 2.0 : 3.5,
           bearing: 0,
           pitch: 0
         }}
