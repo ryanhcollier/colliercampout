@@ -324,8 +324,8 @@ body {
   z-index: 10;
 }
 
-.modal-prev { left: 10px; }
-.modal-next { right: 10px; }
+.modal-prev { left: 0px; }
+.modal-next { right: 0px; }
 
 .modal-prev:hover, .modal-next:hover {
   opacity: 1;
