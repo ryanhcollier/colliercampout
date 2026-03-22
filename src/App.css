@@ -118,7 +118,6 @@ body {
   background-color: var(--bg-color);
   z-index: 5;
   box-shadow: -5px 0 25px rgba(0,0,0,0.05); /* subtle layout shadow */
-  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   padding-top: 25vh; /* ALLOWS FIRST ITEM TO CENTER SNAP */
   transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -149,8 +148,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
 }
 
 .chapter.active {
@@ -388,5 +385,12 @@ body {
   .chapter {
     min-height: auto;
     padding: 30px;
+  }
+
+  .journey-timeline {
+    width: calc(100vw - 40px);
+    left: 20px;
+    bottom: calc(60vh + 20px);
+    z-index: 20;
   }
 }
