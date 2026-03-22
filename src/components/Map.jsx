@@ -28,6 +28,7 @@ export default function AppMap({ activeChapterId }) {
       
       if (chapter) {
         const isTrip = chapter.id === 'trip';
+        const isFinale = activeIndex === chaptersArray.length - 1;
         
         const map = mapRef.current.getMap();
         
@@ -39,15 +40,19 @@ export default function AppMap({ activeChapterId }) {
         const isMobile = window.innerWidth <= 768;
 
         let targetZoom = chapter.zoom > 10 ? chapter.zoom - 1.5 : chapter.zoom;
-        if (isMobile && isTrip) {
+        if (isFinale) {
+            targetZoom = 3.2; // Zoom out to continental view natively on desktop for the finale
+        }
+        
+        if (isMobile && (isTrip || isFinale)) {
             targetZoom = Math.max(0, targetZoom - 1.5); // Pull back camera on mobile to fit the entire US
         }
 
         mapRef.current.flyTo({
           center: chapter.center,
           zoom: targetZoom, 
-          pitch: isTrip ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
-          bearing: isTrip ? 0 : (chapter.bearing || 0), 
+          pitch: (isTrip || isFinale) ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
+          bearing: (isTrip || isFinale) ? 0 : (chapter.bearing || 0), 
           speed: chapter.speed || 0.45,
           curve: 1.5, // Flattened the curve to keep flights closer to the ground and smoother
           essential: true,
