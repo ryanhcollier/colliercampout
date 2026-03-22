@@ -29,7 +29,7 @@ export default function ImageModal({ images, initialIndex, onClose }) {
         
         {images.length > 1 && (
           <button className="modal-prev" onClick={handlePrev} aria-label="Previous image">
-            <ChevronLeft size={48} />
+            <ChevronLeft size={36} />
           </button>
         )}
         
@@ -37,7 +37,7 @@ export default function ImageModal({ images, initialIndex, onClose }) {
         
         {images.length > 1 && (
           <button className="modal-next" onClick={handleNext} aria-label="Next image">
-            <ChevronRight size={48} />
+            <ChevronRight size={36} />
           </button>
         )}
       </div>
