@@ -49,7 +49,7 @@ export default function AppMap({ activeChapterId }) {
         }
 
         mapRef.current.flyTo({
-          center: chapter.center,
+          center: isFinale ? chaptersArray[0].center : chapter.center,
           zoom: targetZoom, 
           pitch: (isTrip || isFinale) ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
           bearing: (isTrip || isFinale) ? 0 : (chapter.bearing || 0), 
