@@ -82,8 +82,9 @@ export default function AppMap({ activeChapterId }) {
 
         // Instantly drop the terrain exaggeration mathematically via React State before taking flight
         if (map.isStyleLoaded()) {
-           // Provide a cinematic 1-second squash animation before the camera pushes natively traversing the map
-           animateTerrain(terrainExag, 0.01, 1000);
+           // Synchronously crush the Mapbox terrain mesh natively so the camera flight engine calculates flat trajectories
+           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 0 });
+           setTerrainExag(0);
         }
         
         const isMobile = window.innerWidth <= 768;
