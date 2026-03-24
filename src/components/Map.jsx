@@ -17,13 +17,8 @@ import routeLegs from '../data/routeLegs.json';
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
   const [popupInfo, setPopupInfo] = useState(null);
-  const [terrainExag, setTerrainExag] = useState(4);
   const animatedCoords = useRef([]);
   const animationFrame = useRef();
-
-  const handleMoveEnd = useCallback(() => {
-    setTerrainExag(4);
-  }, []);
 
   useEffect(() => {
     if (activeChapterId && mapRef.current) {
@@ -44,12 +39,6 @@ export default function AppMap({ activeChapterId }) {
             if (actualElevation && actualElevation > 1200) {
                 calculatedPitch = 68;
             }
-        }
-        
-        // Instantly drop the terrain exaggeration mathematically via React State before taking flight to bypass 4x tracking jitter
-        if (map.isStyleLoaded()) {
-           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 0 });
-           setTerrainExag(0);
         }
 
         const isMobile = window.innerWidth <= 768;
@@ -183,7 +172,6 @@ export default function AppMap({ activeChapterId }) {
     <div className="map-container">
       <Map
         ref={mapRef}
-        onMoveEnd={handleMoveEnd}
         padding={{ right: window.innerWidth <= 768 ? 0 : window.innerWidth / 3 }}
         initialViewState={{
           longitude: -100.941,
@@ -195,7 +183,7 @@ export default function AppMap({ activeChapterId }) {
         mapStyle="mapbox://styles/rhcollier/cj27xhu8s000m2so75ow7mbgt"
         mapboxAccessToken={MAPBOX_TOKEN}
         interactiveLayerIds={['clusters']}
-        terrain={{ source: 'mapbox-dem', exaggeration: terrainExag }}
+        terrain={{ source: 'mapbox-dem', exaggeration: 4 }}
       >
         <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
         <Source id="route" type="geojson" data={{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } }}>
