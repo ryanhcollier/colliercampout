@@ -71,7 +71,8 @@ export const chapters = {
     specs: "$18 / DAY, SELLS WOOD. BEST SITES #15, #18, #19",
     description: "We stayed in site #19. It is in the far corner with no neighbors, and close to the back parking lot and literally has a branch off of a hiking trail leading out the back. Chatted with the hosts and found out that site was actually a popular spot for bear sightings. If you can get there at the right time site #18 is the best site. It is more secluded and next to water.",
     center: [-105.406, 36.708],
-    zoom: 8,
+    bearing: 30,
+    zoom: 10,
     speed: 0.6,
     icon: "campsite"
   },
