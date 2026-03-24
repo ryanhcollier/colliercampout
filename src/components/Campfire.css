@@ -3,84 +3,14 @@
   width: 40px;
   height: 40px;
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -5px;
 }
 
-.flame {
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  /* Shift left by the width (20px) so the right edge (origin) sits exactly at 50% */
-  margin-left: -20px;
-  width: 20px;
-  height: 20px;
-  background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%);
-  border-radius: 0 50% 50% 50%;
-  transform: rotate(45deg);
-  animation: flicker 1s ease-in-out infinite alternate;
-  box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
-  transform-origin: bottom right;
-}
-
-.flame.inner {
-  width: 12px;
-  height: 12px;
-  background: linear-gradient(135deg, #f59e0b 0%, #fde047 100%);
-  bottom: 6px;
-  margin-left: -12px;
-  animation-duration: 0.8s;
-  animation-delay: 0.2s;
-  box-shadow: none;
-}
-
-.flame.spark {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #fde047;
-  bottom: 10px;
-  left: 50%;
-  margin-left: -6px;
-  transform: none;
-  animation: floatUp 1.5s linear infinite;
-  box-shadow: 0 0 5px #fde047;
-}
-
-.flame.spark.delay {
-  margin-left: 4px;
-  animation-delay: 0.7s;
-  animation-duration: 1.2s;
-}
-
-.logs {
-  position: absolute;
-  bottom: 0px;
-  left: 50%;
-  margin-left: -12px;
-  width: 24px;
-  height: 10px;
-}
-
-.log {
-  position: absolute;
-  width: 24px;
-  height: 6px;
-  background: #78350f;
-  border-radius: 3px;
-  transform: rotate(-15deg);
-  top: 2px;
-}
-
-.log:nth-child(2) {
-  transform: rotate(15deg);
-}
-
-@keyframes flicker {
-  0% { transform: rotate(45deg) scale(0.9); }
-  50% { transform: rotate(45deg) scale(1.1) skew(2deg, 2deg); }
-  100% { transform: rotate(45deg) scale(0.95); }
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-20px) scale(0); opacity: 0; }
+.campfire-gif {
+  width: 50px;
+  height: auto;
+  object-fit: contain;
 }
