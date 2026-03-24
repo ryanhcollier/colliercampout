@@ -32,6 +32,16 @@ export default function AppMap({ activeChapterId }) {
         
         const map = mapRef.current.getMap();
         
+        // Dynamically query the Mapbox topography mesh natively prior to tearing it down for the flight
+        let calculatedPitch = chapter.pitch !== undefined ? chapter.pitch : 55;
+        if (chapter.pitch === undefined && map.isStyleLoaded()) {
+            const actualElevation = map.queryTerrainElevation(chapter.center);
+            // If the altitude exceeds 1200m (~4000ft), flatten the camera angle to highlight the physical mountains natively
+            if (actualElevation && actualElevation > 1200) {
+                calculatedPitch = 68;
+            }
+        }
+
         // Strip the terrain exaggeration completely to prevent altitude-tracking jitter over mountains during flight
         if (map.isStyleLoaded()) {
            map.setTerrain(null);
@@ -51,7 +61,7 @@ export default function AppMap({ activeChapterId }) {
         mapRef.current.flyTo({
           center: isFinale ? chaptersArray[0].center : chapter.center,
           zoom: targetZoom, 
-          pitch: (isTrip || isFinale) ? 0 : (chapter.pitch !== undefined ? chapter.pitch : 55), // Cranked pitch up slightly to make the resulting orbit more cinematic
+          pitch: (isTrip || isFinale) ? 0 : calculatedPitch, // Natively apply dynamic topographical tilt
           bearing: (isTrip || isFinale) ? 0 : (chapter.bearing || 0), 
           speed: chapter.speed || 0.45,
           curve: 1.5, // Flattened the curve to keep flights closer to the ground and smoother
