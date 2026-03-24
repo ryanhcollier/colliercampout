@@ -234,7 +234,7 @@ export const chapters = {
     sleepsite: "Lochsa Lodge Cabin",
     specs: "$90 / DAY",
     description: "Down a great drive on highway 12, passing the \"Winding roads next 99 miles\" sign, you can stop in at Lochsa Lodge. We booked a cabin that included a bed and wood fire stove. They have great bathrooms and shower facilities but you have to walk over to them. We stayed in cabin #1. The lodge has a small general store, resturant, and bar. It sits next to Powell campground which has good sites next to the Lochsa River if you do not want to spring for a cabin.",
-    bearing: 0,
+    bearing: 60,
     center: [-114.721, 46.512],
     waypoints: [
       [-113.43543, 48.856777], // Babb / Right side of Lower St Mary
