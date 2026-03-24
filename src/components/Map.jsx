@@ -16,6 +16,7 @@ import routeLegs from '../data/routeLegs.json';
 
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
+  const [popupInfo, setPopupInfo] = useState(null);
   const animatedCoords = useRef([]);
   const animationFrame = useRef();
 
