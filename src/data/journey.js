@@ -476,6 +476,7 @@ export const chapters = {
     specs: "FREE",
     description: "Stayed here.",
     bearing: 0,
+    pitch: 75,
     center: [-119.122, 34.813],
     waypoints: [[-118.477003, 37.818318]], // Benton, CA (Grand Army of the Republic Hwy)
     zoom: 12,
