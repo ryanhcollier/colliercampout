@@ -71,8 +71,9 @@ export default function AppMap({ activeChapterId }) {
 
         map.once('moveend', () => {
             if (map.isStyleLoaded()) {
-                // Instantly pop the 3D terrain mesh back in after flight stops
-                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 4.8 });
+                // Instantly pop the 3D terrain mesh back in after flight stops, checking for localized topography multipliers
+                const targetTopo = chapter.exaggeration !== undefined ? chapter.exaggeration : 4.8;
+                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': targetTopo });
             }
         });
         
