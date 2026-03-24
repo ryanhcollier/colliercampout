@@ -192,10 +192,10 @@ export default function AppMap({ activeChapterId }) {
              id="hillshade-layer"
              type="hillshade"
              paint={{
-               'hillshade-shadow-color': '#1a1a24',
+               'hillshade-shadow-color': '#2a2a35',
                'hillshade-highlight-color': '#ffffff',
                'hillshade-accent-color': '#0d0d1e',
-               'hillshade-exaggeration': 0.8
+               'hillshade-exaggeration': 0.4
              }}
            />
         </Source>
