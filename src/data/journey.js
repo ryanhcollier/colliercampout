@@ -423,7 +423,7 @@ export const chapters = {
     sleepsite: "Upper Pines Campground",
     specs: "$26 / DAY",
     description: "Stayed here.",
-    bearing: 0,
+    bearing: 50,
     center: [-119.564, 37.737],
     zoom: 12,
     speed: 0.6,
