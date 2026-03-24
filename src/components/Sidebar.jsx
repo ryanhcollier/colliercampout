@@ -7,6 +7,7 @@ export default function Sidebar({ activeChapterId, setActiveChapterId, onImageCl
   const chapterRefs = useRef({});
 
   useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -15,7 +16,7 @@ export default function Sidebar({ activeChapterId, setActiveChapterId, onImageCl
       });
     }, {
       root: sidebarRef.current,
-      rootMargin: '-40% 0px -40% 0px',
+      rootMargin: isMobile ? '-5% 0px -95% 0px' : '-40% 0px -40% 0px',
       threshold: 0
     });
 
