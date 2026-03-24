@@ -559,7 +559,7 @@ export const chapters = {
     sleepsite: "Mather Campground",
     specs: "$18 / A DAY",
     description: "Stayed here.",
-    bearing: 0,
+    bearing: 90,
     center: [-112.118, 36.049],
     zoom: 12,
     speed: 0.6,
