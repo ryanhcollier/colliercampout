@@ -267,9 +267,10 @@ export const chapters = {
     sleepsite: "Tollbridge Park Campground",
     specs: "$90 / DAY",
     description: "Decent campsites with shower facilities. Stayed in sites \"M\" and \"I\". \"M\" was next to flowing river, and \"I\" was on the interior loop.",
-    bearing: 150,
+    bearing: 170,
+    pitch: 75,
     center: [-121.569, 45.515],
-    zoom: 9,
+    zoom: 11,
     speed: 0.6,
     icon: "campsite"
   },
