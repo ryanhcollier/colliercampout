@@ -222,7 +222,7 @@ export const chapters = {
     pitch: 45,
     center: [-113.365, 48.487],
     waypoints: [[-112.181615, 47.80994]],
-    zoom: 11.5,
+    zoom: 10.5,
     speed: 0.6,
     icon: "campsite"
   },
