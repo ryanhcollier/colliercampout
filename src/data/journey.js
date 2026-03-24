@@ -141,7 +141,7 @@ export const chapters = {
     bearing: 0,
     center: [-110.639, 43.613],
     waypoints: [[-110.933503, 42.725381]],
-    zoom: 8,
+    zoom: 12,
     speed: 0.6,
     icon: "campsite"
   },
@@ -154,7 +154,7 @@ export const chapters = {
     description: "Colter Bay is another large campground with a tent only loop. We stayed in G loop site #141. Pretty sure we heard another bear walk through the site at night heading over to our neighbors who cooked up some bbq the eveing before. We did however see deer grazing through our site and the campground at dusk.",
     bearing: 0,
     center: [-110.638, 43.907],
-    zoom: 8,
+    zoom: 12,
     speed: 0.6,
     icon: "campsite"
   },
@@ -216,10 +216,11 @@ export const chapters = {
     sleepsite: "Two Medicine Campground",
     specs: "$20 / DAY",
     description: "We stayed in site #50. Two Medicine has quiet campsites with access to amazing trails. We also drove over to Many Glacier campground. We would recommend it for more diverse hikes up to glacier lakes, but need to get there early. It can be hard to get a spot there.",
-    bearing: 0,
+    bearing: 50,
+    pitch: 75,
     center: [-113.365, 48.487],
     waypoints: [[-112.181615, 47.80994]],
-    zoom: 8,
+    zoom: 12.5,
     speed: 0.6,
     icon: "campsite"
   },
