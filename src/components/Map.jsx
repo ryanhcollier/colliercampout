@@ -16,8 +16,6 @@ import routeLegs from '../data/routeLegs.json';
 
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
-  const currentExaggerationRef = useRef(4.8);
-  const terrainAnimationRef = useRef(null);
   const [popupInfo, setPopupInfo] = useState(null);
   
   const animatedCoords = useRef([]);
@@ -33,37 +31,6 @@ export default function AppMap({ activeChapterId }) {
         const isFinale = activeIndex === chaptersArray.length - 1;
         
         const map = mapRef.current.getMap();
-
-        // Cancel any ongoing terrain animation
-        if (terrainAnimationRef.current) {
-            cancelAnimationFrame(terrainAnimationRef.current);
-        }
-
-        const animateTerrain = (startExag, endExag, duration, callback) => {
-            const startTime = performance.now();
-            const animate = (currentTime) => {
-                let progress = (currentTime - startTime) / duration;
-                if (progress > 1) progress = 1;
-
-                // easeInOutQuad curve
-                const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-                const currentExag = startExag + (endExag - startExag) * ease;
-
-                if (map.isStyleLoaded()) {
-                    map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': Math.max(0.01, currentExag) });
-                }
-                currentExaggerationRef.current = currentExag;
-
-                if (progress < 1) {
-                    terrainAnimationRef.current = requestAnimationFrame(animate);
-                } else {
-                    terrainAnimationRef.current = null;
-                    if (callback) callback();
-                }
-            };
-            terrainAnimationRef.current = requestAnimationFrame(animate);
-        };
-
         
         // Dynamically query the Mapbox topography mesh natively prior to tearing it down for the flight
         let calculatedPitch = chapter.pitch !== undefined ? chapter.pitch : 55;
@@ -75,14 +42,9 @@ export default function AppMap({ activeChapterId }) {
             }
         }
 
-        // Strip the terrain exaggeration completely to prevent altitude-tracking jitter over generic flights
-        // However, if the destination explicitly explicitly requests a topographical configuration, we MUST leave the mesh active so it doesn't despawn during the flight
-        if (map.isStyleLoaded() && chapter.exaggeration === undefined) {
-           map.setTerrain(null);
-           currentExaggerationRef.current = 0.01;
-        } else if (map.isStyleLoaded()) {
-           // Animate the terrain perfectly flat natively before executing generic continental cross-flights
-           animateTerrain(currentExaggerationRef.current, 0.01, 1000);
+        // Instantly drop the terrain exaggeration mathematically rather than destroying the object, keeping it cleanly inside engine memory
+        if (map.isStyleLoaded()) {
+           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 0.01 });
         }
         
         const isMobile = window.innerWidth <= 768;
@@ -109,11 +71,9 @@ export default function AppMap({ activeChapterId }) {
 
         map.once('moveend', () => {
             if (map.isStyleLoaded()) {
-                // Smoothly extrude the 3D terrain mesh up from the flat map upon landing natively
+                // Instantly pop the 3D terrain mesh back in after flight stops, triggering mapbox's native tween properties
                 const targetTopo = chapter.exaggeration !== undefined ? chapter.exaggeration : 4.8;
-                if (targetTopo > 0.01) {
-                    animateTerrain(0.01, targetTopo, 2500);
-                }
+                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': targetTopo });
             }
         });
         
