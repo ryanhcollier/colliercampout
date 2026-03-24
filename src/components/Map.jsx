@@ -51,7 +51,7 @@ export default function AppMap({ activeChapterId }) {
         mapRef.current.flyTo({
           center: isFinale ? chaptersArray[0].center : chapter.center,
           zoom: targetZoom, 
-          pitch: (isTrip || isFinale) ? 0 : 55, // Cranked pitch up slightly to make the resulting orbit more cinematic
+          pitch: (isTrip || isFinale) ? 0 : (chapter.pitch !== undefined ? chapter.pitch : 55), // Cranked pitch up slightly to make the resulting orbit more cinematic
           bearing: (isTrip || isFinale) ? 0 : (chapter.bearing || 0), 
           speed: chapter.speed || 0.45,
           curve: 1.5, // Flattened the curve to keep flights closer to the ground and smoother
