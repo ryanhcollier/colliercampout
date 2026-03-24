@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Map, { Marker, Popup, NavigationControl, Source, Layer } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { chaptersArray } from '../data/journey';
@@ -17,10 +17,47 @@ import routeLegs from '../data/routeLegs.json';
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
   const [terrainExag, setTerrainExag] = useState(0.01);
+  const terrainAnimationRef = useRef(null);
   const [popupInfo, setPopupInfo] = useState(null);
   
   const animatedCoords = useRef([]);
   const animationFrame = useRef();
+
+  const animateTerrain = useCallback((startExag, endExag, duration) => {
+      if (terrainAnimationRef.current) {
+          cancelAnimationFrame(terrainAnimationRef.current);
+      }
+      const startTime = performance.now();
+      const animate = (currentTime) => {
+          let progress = (currentTime - startTime) / duration;
+          if (progress > 1) progress = 1;
+
+          // easeInOutQuad curve physics
+          const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+          const currentExag = startExag + (endExag - startExag) * ease;
+
+          // Pipe iterative calculations straight into the react-map-gl Virtual DOM bindings natively
+          setTerrainExag(Math.max(0.01, currentExag));
+
+          if (progress < 1) {
+              terrainAnimationRef.current = requestAnimationFrame(animate);
+          } else {
+              terrainAnimationRef.current = null;
+          }
+      };
+      terrainAnimationRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  // Define a Virtual-DOM secured moveend execution hook to strictly update topographic multiplier constraints without dropping native events
+  const handleMoveEnd = useCallback(() => {
+    const chapter = chaptersArray.find(c => c.id === activeChapterId);
+    if (chapter) {
+        const targetTopo = chapter.exaggeration !== undefined ? chapter.exaggeration : 4.8;
+        if (targetTopo > 0.01) {
+            animateTerrain(0.01, targetTopo, 2500);
+        }
+    }
+  }, [activeChapterId, animateTerrain]);
 
   useEffect(() => {
     if (activeChapterId && mapRef.current) {
@@ -32,7 +69,7 @@ export default function AppMap({ activeChapterId }) {
         const isFinale = activeIndex === chaptersArray.length - 1;
         
         const map = mapRef.current.getMap();
-        
+
         // Dynamically query the Mapbox topography mesh natively prior to tearing it down for the flight
         let calculatedPitch = chapter.pitch !== undefined ? chapter.pitch : 55;
         if (chapter.pitch === undefined && map.isStyleLoaded()) {
@@ -45,7 +82,8 @@ export default function AppMap({ activeChapterId }) {
 
         // Instantly drop the terrain exaggeration mathematically via React State before taking flight
         if (map.isStyleLoaded()) {
-           setTerrainExag(0.01);
+           // Provide a cinematic 1-second squash animation before the camera pushes natively traversing the map
+           animateTerrain(terrainExag, 0.01, 1000);
         }
         
         const isMobile = window.innerWidth <= 768;
@@ -70,14 +108,7 @@ export default function AppMap({ activeChapterId }) {
           padding: { right: isMobile ? 0 : window.innerWidth / 3 } // Wipe padding on mobile since the map mounts vertically
         });
 
-        map.once('moveend', () => {
-            if (map.isStyleLoaded()) {
-                // Instantly update the React Topography State binding upon landing
-                const targetTopo = chapter.exaggeration !== undefined ? chapter.exaggeration : 4.8;
-                setTerrainExag(targetTopo);
-            }
-        });
-        
+
         map.on('idle', () => {
             if (map.isSourceLoaded('composite') && !window.hasStolenRoute) {
                 const features = map.querySourceFeatures('composite', { sourceLayer: 'The_Route' });
@@ -186,6 +217,7 @@ export default function AppMap({ activeChapterId }) {
     <div className="map-container">
       <Map
         ref={mapRef}
+        onMoveEnd={handleMoveEnd}
         padding={{ right: window.innerWidth <= 768 ? 0 : window.innerWidth / 3 }}
         initialViewState={{
           longitude: -100.941,
