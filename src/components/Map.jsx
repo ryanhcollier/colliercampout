@@ -199,6 +199,19 @@ export default function AppMap({ activeChapterId }) {
              }}
            />
         </Source>
+        <Source id="state-boundaries" type="vector" url="mapbox://mapbox.mapbox-streets-v8">
+          <Layer
+            id="state-lines"
+            type="line"
+            source-layer="admin"
+            filter={['==', 'admin_level', 1]}
+            paint={{
+              'line-color': '#1a1a24',
+              'line-width': 1.5,
+              'line-opacity': 0.8
+            }}
+          />
+        </Source>
         <Source id="route" type="geojson" data={{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } }}>
            <Layer {...lineLayer} />
         </Source>
