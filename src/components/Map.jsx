@@ -187,7 +187,18 @@ export default function AppMap({ activeChapterId }) {
         interactiveLayerIds={['clusters']}
         terrain={{ source: 'mapbox-dem', exaggeration: 4 }}
       >
-        <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
+        <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14}>
+          <Layer
+             id="hillshade-layer"
+             type="hillshade"
+             paint={{
+               'hillshade-shadow-color': '#1a1a24',
+               'hillshade-highlight-color': '#ffffff',
+               'hillshade-accent-color': '#0d0d1e',
+               'hillshade-exaggeration': 0.8
+             }}
+           />
+        </Source>
         <Source id="route" type="geojson" data={{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } }}>
            <Layer {...lineLayer} />
         </Source>
