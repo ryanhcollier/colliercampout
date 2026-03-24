@@ -42,8 +42,9 @@ export default function AppMap({ activeChapterId }) {
             }
         }
 
-        // Strip the terrain exaggeration completely to prevent altitude-tracking jitter over mountains during flight
-        if (map.isStyleLoaded()) {
+        // Strip the terrain exaggeration completely to prevent altitude-tracking jitter over generic flights
+        // However, if the destination explicitly explicitly requests a topographical configuration, we MUST leave the mesh active so it doesn't despawn during the flight
+        if (map.isStyleLoaded() && chapter.exaggeration === undefined) {
            map.setTerrain(null);
         }
         

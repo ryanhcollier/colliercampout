@@ -97,6 +97,7 @@ export const chapters = {
     description: "Lots of sites with mixed tent and camper spaces. Upon settling in near the back of the campground we talked to the host who felt the need to share his recent bear story, which of course happened in the exact site we were setting up in. We moved... and stayed in site #22 which has a good lake view and flat tent pad. The campground has basic vault restrooms and potable water.",
     bearing: 315,
     pitch: 45,
+    exaggeration: 8,
     center: [-106.581, 38.819],
     waypoints: [[-107.597831, 38.86855], [-106.987488, 38.869758]],
     zoom: 11.5,
