@@ -295,10 +295,10 @@ export const chapters = {
     sleepsite: "Smith Rock Campground",
     specs: "$5 PER PERSON / DAY",
     description: "Walk in sites about 100-200 yards from parking lot. Lots of climbers around. Some good hikes and climbing. High plains desert area.",
-    bearing: 0,
+    bearing: 30,
     center: [-121.137, 44.366],
     waypoints: [[-123.036676, 44.940689]], // Salem, OR
-    zoom: 12,
+    zoom: 14,
     speed: 0.6,
     icon: "campsite"
   },
