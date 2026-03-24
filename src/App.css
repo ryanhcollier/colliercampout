@@ -397,14 +397,14 @@ body {
   .map-container {
     position: sticky;
     width: 100%;
-    height: 40vh;
+    height: 40dvh;
     z-index: 10;
   }
   
   .sidebar {
     width: 100%;
     margin-left: 0;
-    height: 60vh;
+    height: 60dvh;
     padding-top: 10px;
   }
   
@@ -416,7 +416,7 @@ body {
   .journey-timeline {
     width: calc(100vw - 40px);
     left: 20px;
-    bottom: calc(60vh + 20px);
+    bottom: calc(60dvh + 20px);
     z-index: 20;
   }
 }
