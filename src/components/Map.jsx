@@ -62,7 +62,7 @@ export default function AppMap({ activeChapterId }) {
         map.once('moveend', () => {
             if (map.isStyleLoaded()) {
                 // Instantly pop the 3D terrain mesh back in after flight stops
-                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 6 });
+                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 4.8 });
             }
         });
         
