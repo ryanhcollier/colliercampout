@@ -16,6 +16,7 @@ import routeLegs from '../data/routeLegs.json';
 
 export default function AppMap({ activeChapterId }) {
   const mapRef = useRef();
+  const [terrainExag, setTerrainExag] = useState(0.01);
   const [popupInfo, setPopupInfo] = useState(null);
   
   const animatedCoords = useRef([]);
@@ -42,9 +43,9 @@ export default function AppMap({ activeChapterId }) {
             }
         }
 
-        // Instantly drop the terrain exaggeration mathematically rather than destroying the object, keeping it cleanly inside engine memory
+        // Instantly drop the terrain exaggeration mathematically via React State before taking flight
         if (map.isStyleLoaded()) {
-           map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 0.01 });
+           setTerrainExag(0.01);
         }
         
         const isMobile = window.innerWidth <= 768;
@@ -71,9 +72,9 @@ export default function AppMap({ activeChapterId }) {
 
         map.once('moveend', () => {
             if (map.isStyleLoaded()) {
-                // Instantly pop the 3D terrain mesh back in after flight stops, triggering mapbox's native tween properties
+                // Instantly update the React Topography State binding upon landing
                 const targetTopo = chapter.exaggeration !== undefined ? chapter.exaggeration : 4.8;
-                map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': targetTopo });
+                setTerrainExag(targetTopo);
             }
         });
         
@@ -196,6 +197,7 @@ export default function AppMap({ activeChapterId }) {
         mapStyle="mapbox://styles/rhcollier/cj27xhu8s000m2so75ow7mbgt"
         mapboxAccessToken={MAPBOX_TOKEN}
         interactiveLayerIds={['clusters']}
+        terrain={{ source: 'mapbox-dem', exaggeration: terrainExag }}
       >
         <Source id="mapbox-dem" type="raster-dem" url="mapbox://mapbox.mapbox-terrain-dem-v1" tileSize={512} maxzoom={14} />
         <Source id="route" type="geojson" data={{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [] } }}>
