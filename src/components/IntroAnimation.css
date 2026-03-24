@@ -19,9 +19,14 @@
   pointer-events: none;
 }
 
-.campfire-intro-wrapper {
-  transform: scale(2.0); /* Makes the campfire much larger and explicit for the intro payload */
-  transform-origin: center center;
+.axe-intro-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
+.axe-loading-gif {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+}

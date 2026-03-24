@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import Campfire from './Campfire';
 import './IntroAnimation.css';
 
 export default function IntroAnimation({ onComplete, onFadeStart }) {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    // Hold the campfire for 2.2 seconds, then trigger dissolve
+    // Hold the axe animation for 2.2 seconds, then trigger dissolve
     const holdTimer = setTimeout(() => {
         if (onFadeStart) onFadeStart();
         setIsFadingOut(true);
@@ -24,8 +23,8 @@ export default function IntroAnimation({ onComplete, onFadeStart }) {
 
   return (
     <div className={`intro-overlay ${isFadingOut ? 'fade-out' : ''}`}>
-      <div className="campfire-intro-wrapper">
-        <Campfire />
+      <div className="axe-intro-wrapper">
+        <img src="https://reil.studio/colliercampout/axe.gif" alt="Loading Axe" className="axe-loading-gif" />
       </div>
     </div>
   );
